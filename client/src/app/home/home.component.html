@@ -1,0 +1,45 @@
+<div class="home-container">
+
+  <!-- Welcome Section -->
+  <div class="welcome-card">
+    <h2>Welcome, {{ user?.name || 'User' }}!</h2>
+    <p>Here’s an overview of your app dashboard.</p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-cards">
+    <div class="card total-users">
+      <div class="card-icon"><i class="fas fa-users"></i></div>
+      <div class="card-content">
+        <h3>Total Users</h3>
+        <p>{{ totalUsers }}</p>
+      </div>
+    </div>
+
+    <div class="card active-users">
+      <div class="card-icon"><i class="fas fa-user-check"></i></div>
+      <div class="card-content">
+        <h3>Active Users</h3>
+        <p>{{ activeUsers }}</p>
+      </div>
+    </div>
+
+    <div class="card inactive-users">
+      <div class="card-icon"><i class="fas fa-user-times"></i></div>
+      <div class="card-content">
+        <h3>Inactive Users</h3>
+        <p>{{ inactiveUsers }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="quick-links">
+    <h3>Quick Actions</h3>
+    <ul>
+      <li><a routerLink="/dashboard/users"><i class="fas fa-list"></i> View User List</a></li>
+      <li><a routerLink="/dashboard/home"><i class="fas fa-home"></i> Dashboard Home</a></li>
+    </ul>
+  </div>
+
+</div>
