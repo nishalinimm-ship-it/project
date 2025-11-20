@@ -20,6 +20,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.users = usersModel(sequelize, Sequelize.DataTypes);
+db.file = File(sequelize, Sequelize);//added for db 
 
 
 (async () => {
