@@ -28,6 +28,14 @@
             </div>
           </a>
         </li>
+        <li>
+          <a routerLink="/dashboard/Uploadfile" routerLinkActive="active">
+            <div style="padding: 10px;">
+              <fa-icon [icon]="faUpload" style="margin-right: 8px;"></fa-icon>
+              <span>Uploadfile</span>
+            </div>
+          </a>
+        </li>
       </ul>
     </div>
 
@@ -38,3 +46,14 @@
 
   </div>
 </div>
+<!-- <div class="card"> -->
+  <!-- <p-fileUpload  
+      name="myFiles"
+      url="http://localhost:3000/upload"
+      (onUpload)="onUpload($event)"
+      chooseLabel="Choose Files"
+      uploadLabel="Upload"
+      cancelLabel="Cancel"
+      [multiple]="true">
+  </p-fileUpload>
+</div> -->
