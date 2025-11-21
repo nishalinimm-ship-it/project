@@ -6,6 +6,7 @@ import {
   loginUser 
 
 } from '../controller/users.controller.js';
+import db from "../config/db.config.js";
 import multer from 'multer';
 
 export default function(app) {
@@ -35,37 +36,29 @@ export default function(app) {
   const Upload = multer({ storage: storage });
 
   // ------------------- UPLOAD ROUTE -------------------
-  app.post("/upload", Upload.array("myFiles"), (req, res) => {
-    console.log(req.files);
-    res.json({
-      message: "Files uploaded successfully!",
-      files: req.files
-    });
+
+app.post("/upload", Upload.array("myFiles"), async (req, res) => {
+  try {
+       const files = req.files;
+    const savedFiles = [];
+
+  for (const file of files) {
+        const saved = await db.file.create({
+          filename: file.originalname,
+          mimetype: file.mimetype,
+          path: file.path
+        });
+        savedFiles.push(saved);
+      }
+
+      res.json({
+        message: "Files uploaded & saved to DB!",
+        files: savedFiles
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Upload DB error", error });
+    }
   });
-
 }
-
-// app.post("/upload", upload.array("myFiles"), async (req, res) => {
-//   try {
-//     const savedFiles = [];
-
-//     for (let f of req.files) {
-//       const fileRecord = await db.file.create({
-//         filename: f.filename,
-//         filepath: "/uploads/" + f.filename
-//       });
-//       savedFiles.push(fileRecord);
-//     }
-
-//     res.json({
-//       message: "Uploaded & saved to DB!",
-//       files: savedFiles
-//     });
-
-//   } catch (error) {
-//     res.status(500).json({ message: "DB save error", error });
-//   }
-// });
-
-
-// }

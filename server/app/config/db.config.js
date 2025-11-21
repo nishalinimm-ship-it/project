@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import env from './env.js';
 import usersModel from '../model/users.js';
-
+import FileModel from "../model/file.model.js";//added for file
 
 const sequelize = new Sequelize(env.database, env.username, env.password, {
   host: env.host,
@@ -20,7 +20,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.users = usersModel(sequelize, Sequelize.DataTypes);
-db.file = File(sequelize, Sequelize);//added for db 
+db.file = FileModel(sequelize, Sequelize);//added for db 
 
 
 (async () => {
@@ -28,6 +28,12 @@ db.file = File(sequelize, Sequelize);//added for db
   try {
     await sequelize.authenticate();
     console.log(' Database connected successfully.');
+
+//added for file
+     await sequelize.sync({after: true});
+    console.log(" All models synced successfully.");
+
+ 
   } catch (error) {
     console.error(' Unable to connect to database:', error);
   }
