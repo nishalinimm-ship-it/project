@@ -23,13 +23,14 @@
         <!-- COMPANY MENU -->
         <li class="has-submenu">
           <div class="menu-title" (click)="companyMenuActive = !companyMenuActive" [class.active]="companyMenuActive">
-            <fa-icon [icon]="faUsers"></fa-icon>
+            <fa-icon [icon]="faBuilding"></fa-icon>
             <span>Company</span>
             <span class="arrow">{{ companyMenuActive ? '▲' : '▼' }}</span>
           </div>
           <ul class="submenu" *ngIf="companyMenuActive">
             <li>
               <a routerLink="/dashboard/company-list" routerLinkActive="active">
+                <fa-icon [icon]="faBuildingUser"></fa-icon>
                 <span>Company List</span>
               </a>
             </li>

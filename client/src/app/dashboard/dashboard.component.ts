@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faHome, faUsers, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUsers, faUpload ,faBuilding ,faBuildingUser} from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../services/auth.service';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
@@ -25,7 +25,8 @@ export class DashboardComponent {
   faHome = faHome;
   faUsers = faUsers;
   faUpload = faUpload;
-
+ faBuilding= faBuilding;
+faBuildingUser=faBuildingUser;
   // Controls company submenu
   companyMenuActive = false;
 

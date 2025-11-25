@@ -32,6 +32,46 @@
       </div>
     </div>
   </div> -->
+<!-- 
+//primeng tab menu// -->
+  <p-tabs value="0">
+    <p-tablist>
+        <p-tab value="0">Users Management</p-tab>
+        <p-tab value="1">File Uploads</p-tab>
+        <p-tab value="2">Dashboard</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+        <p-tabpanel value="0">
+            <p class="m-0">
+                In this section, you can view and manage all users registered in the system.
+    The application allows administrators to add new users, edit existing user
+    details, and remove accounts that are no longer required. All user actions are
+    securely handled through our Node.js backend and stored in a PostgreSQL database.
+    <br /><br />
+    This module also includes support for authentication and validation to ensure
+    only authorized personnel can access sensitive functionality. Search and filter
+    tools are provided to quickly locate a specific user from the list.
+            </p>
+        </p-tabpanel>
+        <p-tabpanel value="1">
+            <p class="m-0">
+                This module allows users to securely upload files such as images or
+    documents to the server. All uploaded files are stored with proper validation,
+    name formatting, and access control. Admins can view or remove uploaded files
+    from the system dashboard. The upload function is implemented using Multer in
+    Node.js, ensuring secure processing of file metadata.
+            </p>
+        </p-tabpanel>
+        <p-tabpanel value="2">
+            <p class="m-0">
+               The dashboard provides a quick overview of system activities including the
+    total number of users, recent file uploads, and performance statistics. This
+    helps administrators make informed decisions and track important updates in
+    real time. Charts and visual insights will be added for better analytics.
+            </p>
+        </p-tabpanel>
+    </p-tabpanels>
+</p-tabs>
 
   <!-- Quick Links -->
 
