@@ -1,0 +1,78 @@
+<div class="dashboard-wrapper">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <h2>My App</h2>
+    <button (click)="logout()">Logout</button>
+  </div>
+
+  <!-- Layout: Sidebar + Main Content -->
+  <div class="content-wrapper">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <ul>
+        <!-- HOME -->
+        <li>
+          <a routerLink="/dashboard/home" routerLinkActive="active">
+            <fa-icon [icon]="faHome"></fa-icon>
+            <span>Home</span>
+          </a>
+        </li>
+
+        <!-- COMPANY MENU -->
+        <li class="has-submenu">
+          <div class="menu-title" (click)="companyMenuActive = !companyMenuActive" [class.active]="companyMenuActive">
+            <fa-icon [icon]="faUsers"></fa-icon>
+            <span>Company</span>
+            <span class="arrow">{{ companyMenuActive ? '▲' : '▼' }}</span>
+          </div>
+          <ul class="submenu" *ngIf="companyMenuActive">
+            <li>
+              <a routerLink="/dashboard/company-list" routerLinkActive="active">
+                <span>Company List</span>
+              </a>
+            </li>
+        
+          </ul>
+        </li>
+
+        <!-- ALL USERS -->
+        <li>
+          <a routerLink="/dashboard/users" routerLinkActive="active">
+            <fa-icon [icon]="faUsers"></fa-icon>
+            <span>User List</span>
+          </a>
+        </li>
+
+        <!-- FILE UPLOAD -->
+        <li style="margin: 20px; padding: 20px;">
+          <div class="menu-title">
+            <fa-icon [icon]="faUpload"></fa-icon>
+            <span>Upload File</span>
+          </div>
+          <div class="submenu">
+            <p-fileupload
+              #fu mode="basic"
+              chooseLabel="Choose"
+              chooseIcon="pi pi-upload"
+              name="file"
+              url="http://localhost:3000/api/uploads"
+              accept="image/*"
+              maxFileSize="1000000"
+              (onUpload)="onUpload($event)"
+              (onError)="onUploadError($event)">
+            </p-fileupload>
+            <p-button label="Upload" (click)="fu.upload()" class="p-button-secondary"></p-button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>

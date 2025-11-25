@@ -1,0 +1,19 @@
+<h2>Company List</h2>
+
+<table border="1" width="100%">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Contact Person</th>
+    <th>Action</th>
+  </tr>
+
+  <tr *ngFor="let c of companies">
+    <td>{{ c.company_id }}</td>
+    <td>{{ c.company_name }}</td>
+    <td>{{ c.contact_person }}</td>
+    <td>
+      <button (click)="openUsers(c)">View Users</button>
+    </td>
+  </tr>
+</table>

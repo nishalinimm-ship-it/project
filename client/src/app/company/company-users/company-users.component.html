@@ -1,0 +1,17 @@
+<h2>Users of Company: {{ companyId }}</h2>
+
+<table border="1" width="100%">
+  <tr>
+    <th>User ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Status</th>
+  </tr>
+
+  <tr *ngFor="let u of users">
+    <td>{{ u.user_id }}</td>
+    <td>{{ u.user_name }}</td>
+    <td>{{ u.email }}</td>
+    <td>{{ u.status === 0 ? 'Active' : 'Inactive' }}</td>
+  </tr>
+</table>

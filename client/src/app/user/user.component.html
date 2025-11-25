@@ -1,0 +1,110 @@
+<div class="home-container">
+  <h2>Users List</h2>
+
+  <!-- Add User Button -->
+  <div style="text-align: right; margin-bottom: 15px;">
+    <button 
+      pButton 
+      label="Add User" 
+      icon="pi pi-user-plus"
+      class="p-button-success"
+      (click)="openCreateDialog()">
+    </button>
+  </div>
+
+  <!-- USERS TABLE -->
+  <p-table 
+    [value]="users"
+    [loading]="loading"
+    class="p-datatable-striped p-datatable-gridlines">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th style="width: 180px">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>{{ user.user_id }}</td>
+        <td>{{ user.user_name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.status === 1 ? 'Active' : 'Inactive' }}</td>
+        <td>
+          <div style="display: flex; gap: 10px;">
+            <button 
+              pButton 
+              label="Edit"
+              icon="pi pi-pencil" 
+              class="p-button-sm p-button-rounded p-button-info"
+              (click)="openEditDialog(user)">
+            </button>
+
+            <button 
+              pButton 
+              label="Delete"
+              icon="pi pi-trash"
+              class="p-button-sm p-button-rounded p-button-danger"
+              (click)="deleteUser(user.id)">
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+  <div *ngIf="!loading && users.length === 0">
+    No users found.
+  </div>
+</div>
+
+<!-- CREATE/EDIT USER DIALOG -->
+<p-dialog 
+  header="{{ isEditMode ? 'Edit User' : 'Add User' }}" 
+  [(visible)]="displayUserDialog" 
+  [modal]="true" 
+  [style]="{width: '400px'}">
+
+  <div class="p-fluid">
+
+    <div class="field mb-3">
+      <label>Name</label>
+      <input pInputText [(ngModel)]="userFormData.name" />
+    </div>
+
+    <div class="field mb-3">
+      <label>Email</label>
+      <input pInputText [(ngModel)]="userFormData.email" />
+    </div>
+
+    <div class="field mb-3">
+      <label>Password</label>
+      <input pInputText type="password" [(ngModel)]="userFormData.password" />
+    </div>
+
+  </div>
+
+  <ng-template pTemplate="footer">
+
+    <button 
+      pButton 
+      label="Cancel" 
+      class="p-button-text"
+      (click)="displayUserDialog = false">
+    </button>
+
+    <button 
+      pButton 
+      label="Save" 
+      icon="pi pi-check"
+      (click)="saveUser()">
+    </button>
+
+  </ng-template>
+
+</p-dialog>
