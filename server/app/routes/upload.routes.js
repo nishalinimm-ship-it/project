@@ -9,4 +9,4 @@ router.post("/", upload.single("file"), uploadFile);
 
 export default router;
 
- app.use('/upload', uploadRoutes);
+// app.use('/upload', uploadRoutes);
