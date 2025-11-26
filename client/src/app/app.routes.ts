@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { UserComponent } from './user/user.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
+import { UploadComponent } from './upload/upload.component';
 
 // New components (you will create them)
 import { CompanyListComponent } from './company/company-list/company-list.component';
@@ -30,7 +31,9 @@ export const routes: Routes = [
       { path: 'company-list', component: CompanyListComponent },
 
       /** USERS OF A SELECTED COMPANY */
-      { path: 'company-users/:id', component: CompanyUsersComponent }
+      { path: 'company-users/:id', component: CompanyUsersComponent },
+
+       {path: 'Uploadfile', component: UploadComponent }  // <-- add this
     ]
   },
 

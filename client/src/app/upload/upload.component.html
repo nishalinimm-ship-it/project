@@ -1,0 +1,15 @@
+<!-- src/app/uploadfile/uploadfile.component.html -->
+<div class="card" style="padding:20px;">
+  <h3>Upload files</h3>
+
+  <p-fileUpload
+    name="file"
+    url="http://localhost:3000/api/uploads"
+    [auto]="false"
+    [multiple]="true"
+    chooseLabel="Choose Files"
+    uploadLabel="Upload"
+    cancelLabel="Cancel"
+    (onUpload)="onUpload($event)">
+  </p-fileUpload>
+</div>
