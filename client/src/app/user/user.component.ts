@@ -6,6 +6,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-user',
@@ -18,7 +19,8 @@ import { InputTextModule } from 'primeng/inputtext';
     TableModule,
     ButtonModule,
     FormsModule,
-    InputTextModule
+    InputTextModule,
+    PaginatorModule
   ]
 })
 export class UserComponent implements OnInit {
@@ -26,16 +28,15 @@ export class UserComponent implements OnInit {
   users: any[] = [];
   loading = false;
 
-  // One dialog for add + edit
-  displayUserDialog = false;
+  rows = 10;
+  totalRecords = 0;
 
-  // Track mode
+  displayUserDialog = false;
   isEditMode = false;
 
-  // Form data
   userFormData = {
     id: null,
-    name: '',
+    user_name: '',
     email: '',
     password: ''
   };
@@ -43,104 +44,93 @@ export class UserComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.fetchUsers();
+    this.loadUsers({ first: 0, rows: this.rows });
   }
 
-  // ===============================
-  // GET ALL USERS
-  // ===============================
-  fetchUsers() {
+  loadUsers(event: any) {
     this.loading = true;
 
-    this.http.get<any>('http://localhost:3000/api/users/getAllUsers').subscribe(
+    const page = event.first / event.rows;
+    const limit = event.rows;
+
+    this.http.get<any>(
+      `http://localhost:3000/api/users/getUsers?page=${page}&limit=${limit}`
+    ).subscribe(
       res => {
+        this.users = res.results;
+        this.totalRecords = res.total;
         this.loading = false;
-        if (res.status === 200) {
-          this.users = res.results;
-        } else {
-          alert(res.reason);
-        }
       },
       () => {
         this.loading = false;
-        alert('Error fetching users');
       }
     );
   }
 
-  // ===============================
-  // OPEN CREATE DIALOG
-  // ===============================
+  fetchUsers() {
+    this.loadUsers({ first: 0, rows: this.rows });
+  }
+
   openCreateDialog() {
     this.isEditMode = false;
-    this.userFormData = { id: null, name: '', email: '', password: '' };
+    this.userFormData = {
+      id: null,
+      user_name: '',
+      email: '',
+      password: ''
+    };
     this.displayUserDialog = true;
   }
 
-  // ===============================
-  // OPEN EDIT DIALOG
-  // ===============================
   openEditDialog(user: any) {
     this.isEditMode = true;
-    this.userFormData = { ...user }; // clone
+
+    this.userFormData = {
+      id: user.user_id,
+      user_name: user.user_name,
+      email: user.email,
+      password: ''
+    };
+
     this.displayUserDialog = true;
   }
 
-  // ===============================
-  // SAVE USER (CREATE + UPDATE)
-  // ===============================
   saveUser() {
     if (this.isEditMode) {
-      // UPDATE USER
       this.http.put<any>(
         `http://localhost:3000/api/users/updateUser/${this.userFormData.id}`,
         this.userFormData
       ).subscribe(
         res => {
-          if (res.status === 200) {
-            alert('User updated successfully');
-            this.displayUserDialog = false;
-            this.fetchUsers();
-          } else {
-            alert(res.reason);
-          }
+          alert('User updated successfully');
+          this.displayUserDialog = false;
+          this.fetchUsers();
         }
       );
 
     } else {
-      // CREATE USER
-      this.http.post<any>('http://localhost:3000/api/users/addUser', this.userFormData)
-        .subscribe(
-          res => {
-            if (res.status === 201) {
-              alert('User created successfully');
-              this.displayUserDialog = false;
-              this.fetchUsers();
-            } else {
-              alert(res.reason);
-            }
-          }
-        );
+      this.http.post<any>(
+        'http://localhost:3000/api/users/addUser',
+        this.userFormData
+      ).subscribe(
+        res => {
+          alert('User created successfully');
+          this.displayUserDialog = false;
+          this.fetchUsers();
+        }
+      );
     }
   }
 
-  // ===============================
-  // DELETE USER
-  // ===============================
   deleteUser(id: number) {
     if (!confirm('Are you sure you want to delete this user?')) return;
 
-    this.http.delete<any>(`http://localhost:3000/api/users/deleteUser/${id}`).subscribe(
+    this.http.delete<any>(
+      `http://localhost:3000/api/users/deleteUser/${id}`
+    ).subscribe(
       res => {
-        if (res.status === 200) {
-          alert('User deleted successfully');
-          this.fetchUsers();
-        } else {
-          alert(res.reason);
-        }
-      },
-      () => {
-        alert('Error deleting user');
+        alert('User deleted successfully');
+        this.fetchUsers();
       }
     );
   }

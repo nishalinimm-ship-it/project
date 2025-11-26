@@ -8,7 +8,7 @@
 
 /* Welcome card */
 .welcome-card {
-  background: linear-gradient(135deg, #4a90e2, #1e73c8);
+  background: linear-gradient(135deg, #9186c0, #3a3749);
   color: #fff;
   padding: 30px;
   border-radius: 16px;
@@ -148,3 +148,66 @@ p-step-panel {
 .quick-links a:hover {
   color: #1e73c8;
 }
+
+
+/* Tab Header */
+p-tabs ::ng-deep .p-tab {
+  padding: 12px 20px;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: 0.3s ease;
+}
+
+/* Tab Hover */
+p-tabs ::ng-deep .p-tab:hover {
+  background-color: #eef2ff; /* light blue */
+  cursor: pointer;
+}
+
+/* Active Tab */
+p-tabs ::ng-deep .p-tab.p-tab-active {
+  background-color: #665f85 !important; /* Indigo */
+  color: white !important;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+/* ------------------------------------
+   NEXT BUTTON (Primary)
+------------------------------------- */
+p-stepper ::ng-deep .p-button {
+  background-color: #665f85 !important;   /* Main color */
+  color: #ffffff !important;
+  border: none !important;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+/* Hover */
+p-stepper ::ng-deep .p-button:hover {
+  background-color: #665f85!important;   /* Darker shade */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+/* ------------------------------------
+   BACK BUTTON (Secondary)
+------------------------------------- */
+p-stepper ::ng-deep .p-button-secondary {
+  background-color: #e5e7eb !important;  /* Light grey */
+  color: #1f2937 !important;             /* Dark text */
+  border: none !important;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+/* Hover */
+p-stepper ::ng-deep .p-button-secondary:hover {
+  background-color: #d1d5db !important;  /* Slightly darker grey */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+

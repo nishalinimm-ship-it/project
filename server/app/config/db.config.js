@@ -32,8 +32,8 @@ db.company = companyModel(sequelize, Sequelize.DataTypes);
 ============================================*/
 
 // 1️⃣ Uploads → Users
-db.uploads.belongsTo(db.users, { foreignKey: "user_Id" });
-db.users.hasMany(db.uploads, { foreignKey: "user_Id" });
+db.uploads.belongsTo(db.users, { foreignKey: "user_id" });
+db.users.hasMany(db.uploads, { foreignKey: "user_id" });
 
 // 2️⃣ Users → Company (foreign key)
 db.users.belongsTo(db.company, { foreignKey: "company_id" });

@@ -3,14 +3,50 @@ import { Op } from "sequelize";
 
 const users = db.users;
 
-// Login
+// =====================
+// PAGINATION CONTROLLER
+// =====================
+export const getUsersPaginated = async (req, res) => {
+  const page = parseInt(req.query.page) || 0;
+  const limit = parseInt(req.query.limit) || 10;
+  const offset = page * limit;
+
+  try {
+    const { count, rows } = await users.findAndCountAll({
+      limit,
+      offset,
+      where: {
+        status: { [Op.in]: [0, 1] }
+      }
+    });
+
+    res.json({
+      status: 200,
+      results: rows,
+      total: count
+    });
+
+  } catch (error) {
+    console.error("Pagination error:", error);
+    res.status(500).json({
+      status: 500,
+      reason: "Database error",
+      error: error.message,
+    });
+  }
+};
+
+
+// =====================
+// LOGIN USER
+// =====================
 export const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
     return res.status(400).json({
       status: 400,
-      reason: "Username and password are required",
+      reason: "username and password are required",
     });
   }
 
@@ -19,7 +55,7 @@ export const loginUser = async (req, res) => {
   try {
     const user = await users.findOne({
       where: {
-        user_name: username, // FIX: field corrected
+        user_name: username,
         password,
         status: { [Op.in]: [0, 1] }
       },
@@ -34,13 +70,12 @@ export const loginUser = async (req, res) => {
         reason: "Login successful",
         results: user.get({ plain: true }),
       });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        reason: "User not found or invalid credentials",
+      });
     }
-
-    return res.status(404).json({
-      status: 404,
-      reason: "Invalid credentials",
-    });
-
   } catch (err) {
     await t.rollback();
     console.error("Login error:", err);
@@ -51,8 +86,13 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// Get All Users
+
+// =====================
+// GET ALL USERS
+// =====================
 export const getAllUsers = async (req, res) => {
+  console.log("Inside getAllUsers");
+
   const t = await db.sequelize.transaction();
 
   try {
@@ -63,22 +103,24 @@ export const getAllUsers = async (req, res) => {
       transaction: t,
     });
 
-    const userData = queryRes.map(u => u.get({ plain: true }));
+    const userData = queryRes.map((u) => u.get({ plain: true }));
+    console.log("Fetched users:", userData.map((u) => ({ id: u.user_id })));
 
     await t.commit();
 
     if (userData.length > 0) {
-      return res.json({ status: 200, reason: "Success", results: userData });
+      res.json({ status: 200, reason: "Success", results: userData });
+    } else {
+      res.status(404).json({ status: 404, reason: "No data found", results: [] });
     }
-
-    return res.status(404).json({ status: 404, reason: "No data found", results: [] });
-
   } catch (err) {
     await t.rollback();
-    console.error("Fetch users error:", err);
+    console.error("Error fetching users:", err);
     res.status(500).json({ status: 500, reason: "Error fetching users", results: [] });
   }
 };
+
+
 
 // Add User
 export const addUser = async (req, res) => {
@@ -136,34 +178,69 @@ export const addUser = async (req, res) => {
 };
 
 // Update User
+// export const updateUser = async (req, res) => {
+//   const { user_id } = req.params;
+//   const updateData = req.body;
+//   const t = await db.sequelize.transaction();
+
+//   try {
+//     const user = await users.findByPk(user_id, { transaction: t });
+
+//     if (!user) {
+//       await t.commit();
+//       return res.status(404).json({ status: 404, reason: "User not found" });
+//     }
+
+//     await user.update(updateData, { transaction: t });
+//     await t.commit();
+
+//     res.json({
+//       status: 200,
+//       reason: "User updated successfully",
+//       results: user.get({ plain: true }),
+//     });
+
+//   } catch (err) {
+//     await t.rollback();
+//     console.error("Update user error:", err);
+//     res.status(500).json({ status: 500, reason: "Error updating user" });
+//   }
+// };
+
+// controllers/users.controller.js
+// UPDATE USER
 export const updateUser = async (req, res) => {
-  const { user_id } = req.params;
-  const updateData = req.body;
-  const t = await db.sequelize.transaction();
-
   try {
-    const user = await users.findByPk(user_id, { transaction: t });
+    console.log(">>> updateUser called - params:", req.params, "body:", req.body);
 
-    if (!user) {
-      await t.commit();
-      return res.status(404).json({ status: 404, reason: "User not found" });
+    const user_id = parseInt(req.params.user_id);
+
+    if (!user_id || isNaN(user_id)) {
+      console.log("updateUser - invalid id:", req.params.user_id);
+      return res.status(400).json({ status: 400, message: "Invalid User ID" });
     }
 
-    await user.update(updateData, { transaction: t });
-    await t.commit();
+    const existingUser = await users.findByPk(user_id);
 
-    res.json({
-      status: 200,
-      reason: "User updated successfully",
-      results: user.get({ plain: true }),
-    });
+    if (!existingUser) {
+      console.log("updateUser - user not found:", user_id);
+      return res.status(404).json({ status: 404, message: "User not found" });
+    }
 
-  } catch (err) {
-    await t.rollback();
-    console.error("Update user error:", err);
-    res.status(500).json({ status: 500, reason: "Error updating user" });
+    const updateData = { ...req.body };
+    delete updateData.user_id; // prevent primary key update
+
+    await users.update(updateData, { where: { user_id } });
+
+    console.log("updateUser - success:", user_id);
+    return res.status(200).json({ status: 200, message: "User updated successfully" });
+
+  } catch (error) {
+    console.error("updateUser error:", error);
+    return res.status(500).json({ status: 500, message: "Update failed", error });
   }
 };
+
 
 // Delete User
 export const deleteUser = async (req, res) => {

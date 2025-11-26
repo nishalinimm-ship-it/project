@@ -12,7 +12,7 @@ table {
 
 /* Table headers */
 th {
-  background-color: #007bff;
+  background-color: #4d447d;
   color: #fff;
   text-align: left;
   padding: 12px;
@@ -47,7 +47,7 @@ h2 {
 
 /* Button styling */
 button {
-  background-color: #28a745;
+  background-color: #776bb8;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -58,7 +58,7 @@ button {
 }
 
 button:hover {
-  background-color: #218838;
+  background-color: #3b3171;
 }
 
 /* Responsive table */

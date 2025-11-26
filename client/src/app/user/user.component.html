@@ -15,7 +15,13 @@
   <!-- USERS TABLE -->
   <p-table 
     [value]="users"
+    [lazy]="true"
+    (onLazyLoad)="loadUsers($event)"
+    [paginator]="true"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
     [loading]="loading"
+    [rowsPerPageOptions]="[5,10,20,50]"
     class="p-datatable-striped p-datatable-gridlines">
 
     <ng-template pTemplate="header">
@@ -41,7 +47,7 @@
               label="Edit"
               icon="pi pi-pencil" 
               class="p-button-sm p-button-rounded p-button-info"
-              (click)="openEditDialog(user)">
+              (click)="openEditDialog(user)">   <!-- FIXED -->
             </button>
 
             <button 
@@ -49,7 +55,7 @@
               label="Delete"
               icon="pi pi-trash"
               class="p-button-sm p-button-rounded p-button-danger"
-              (click)="deleteUser(user.id)">
+              (click)="deleteUser(user.user_id)">
             </button>
           </div>
         </td>
@@ -74,7 +80,7 @@
 
     <div class="field mb-3">
       <label>Name</label>
-      <input pInputText [(ngModel)]="userFormData.name" />
+      <input pInputText [(ngModel)]="userFormData.user_name" />
     </div>
 
     <div class="field mb-3">

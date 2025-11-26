@@ -6,7 +6,7 @@
   max-width: 1000px;
   margin: 40px auto;
   padding: 25px;
-  background: #a0a3a3;
+    background: linear-gradient(135deg, #9186c0, #3a3749);
   /* border-radius: 10px; */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   font-family: "Inter", sans-serif;
@@ -33,10 +33,11 @@
 }
 
 :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-  background: #f1f3f5;
+  background: #4d447d;
   padding: 14px;
   font-weight: 600;
   text-align: center;
+  color: white;
 }
 
 :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
@@ -47,7 +48,7 @@
 
 /* row hover */
 :host ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
-  background: #f9fafb;
+  background: #b389c5;
 }
 
 /* ================================
