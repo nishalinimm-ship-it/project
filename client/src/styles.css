@@ -21,3 +21,14 @@ body {
   --accent: #6aa8ff;
   --accent-strong: #2f7be4;
 }
+/* Choose button (first button) for upload button ,hover*/
+.p-fileupload .p-button:nth-child(1) {
+  background-color:#75718d!important;   /* Blue */
+  border-color: #1c1c1d !important;
+  color: white !important;
+  
+}
+.p-fileupload .p-button:nth-child(1):hover {
+  background-color: #b4acd3 !important;
+  border-color: #383a39 !important;
+}
